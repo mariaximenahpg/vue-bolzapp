@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Font icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Boolzapp</title> 
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <!-- Left -->
+                <div class="left-col">
+                    <!-- My contact -->
+                    <div class="user-contact">
+                        <div class="user">
+                            <img src="img/avatar_io.jpg" alt="">
+                            <span>Io</span>
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-rotate"></i>
+                            <i class="fa-solid fa-message"></i>
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <!-- Notifiche -->
+                    <div class="bell-section">
+                        <div class="icon-bell">
+                            <i class="fa-solid fa-bell-slash"></i>
+                        </div>
+                        <div class="text">
+                            <p>Ricevi notifiche di nuovi messaggi</p>
+                            <a href="#">Attiva notifiche desktop</a>
+                        </div>
+                    </div>
+                    <!-- Ricerca contatti -->
+                    <form class="search-contacts">
+                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <input type="text" placeholder="Cerca o inizia una nuova chat" v-model="searchText" >
+                    </form>
+                    <!-- Contatti -->
+                    <div class="list">
+                        <div class="contacts-list" :class="{'active' : index === contactIndex}" v-for="(contact, index) in contacts" @click="usersChat(index)" v-show="searchContactList(contact)">
+                            <div class="user">
+                                <img :src="`img/avatar${contact.avatar}.jpg`" :alt="">
+                                <div class="details">
+                                    <h4>{{contact.name}}</h4>
+                                    <small>{{ contact.messages[contact.messages.length - 1].message }}</small>
+                                </div>
+                            </div>
+                            <div class="info">
+                                <small>{{contact.messages[contact.messages.length - 1].date }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- /Left -->    
+
+            <!-- Right -->
+                <div class="right-col">
+                    <!-- Chat aperta "header"-->
+                    <div class="chat">
+                        <div class="contact-chat">
+                            <img :src="`img/avatar${contacts[contactIndex].avatar}.jpg`" alt="">
+                            <div class="chat-details">
+                                <h5>{{contacts[contactIndex].name}}</h5>
+                                <small>{{ contacts[contactIndex].messages[contacts[contactIndex].messages.length - 1].date }}</small>
+                            </div>
+                        </div>
+                        <div class="contact-icon">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <i class="fa-solid fa-paperclip"></i>
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <!-- Chat section -->
+                    <div class="chat-content">
+                        <div class="message-row">
+                            <div class="message" v-for="(message, index) in contacts[contactIndex].messages" :class="message.status">
+                                <p>{{message.message}}</p>
+                                <small>{{message.date}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Reply -->
+                    <form class="reply" @submit.prevent="writeReply">
+                        <i class="fa-regular fa-face-smile"></i>
+                        <input type="text" placeholder="Scrivi un messaggio" v-model="replyMessage">
+                        <i class="fa-solid fa-microphone"></i>
+                    </form>            
+                </div>
+            <!-- /Right -->
+        </div>  
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
